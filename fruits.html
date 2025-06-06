@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search Engine</title>
+</head>
+<body>
+    <h1>Search Fruits Engine</h1>
+
+    <label for="query">Search for:</label>
+    <input type="text" id="query" name="q" required>
+
+    <label for="boost">Boost with PageRank:</label>
+    <input type="checkbox" id="boost" name="boost">
+
+    <label for="limit">Number of results:</label>
+    <input type="number" id="limit" name="limit" min="1" max="50" value="10">
+
+    <button id="fruitsSearchButton" type="submit">Search</button>
+
+    <div id="fruitsResponseText"></div>
+    
+    <script>
+        let fruitsSearchButton = document.getElementById("fruitsSearchButton");
+        fruitsSearchButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            
+            const queryValue = document.getElementById("query").value;
+            const boostValue = document.getElementById("boost").checked;
+            const limitValue = document.getElementById("limit").value;
+    
+            const xhr = new XMLHttpRequest();
+    
+            xhr.open('POST', '/fruits', true);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 400) {
+                    // The request was successful
+                    console.log('Response from server:', xhr.responseText);
+                    document.getElementById("fruitsResponseText").textContent = xhr.responseText;
+                } else {
+                    // The request returned an error
+                    console.error('Server returned an error:', xhr.statusText);
+                }
+            };
+    
+            xhr.onerror = function() {
+                // There was a connection error
+                console.error('Connection error');
+            };
+    
+            // Sending the data as a JSON string to the server
+            xhr.send(JSON.stringify({
+                queryValue: queryValue,
+                boostValue: boostValue,
+                limitValue: limitValue
+            }));
+        });
+        </script>
+</body>
+</html>
