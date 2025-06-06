@@ -1,6 +1,6 @@
 Name:
-Jason Huang SN:101183359
-Terry Kong SN:101187885
+Jason Huang
+Terry Kong
 
 http://134.117.133.32:3000 status: working
 http://localhost:3000/fruits
